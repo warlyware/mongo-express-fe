@@ -1,20 +1,47 @@
 'use strict';
 
-angular.module('heimdall', [])
+angular.module('questionApp', [])
+.constant('ATN', {
+  'API_URL': 'http://localhost:3000'
+})
 
-.controller('MainCtrl', function($scope, $http){
-  $scope.submitQuestion = function(evt) {
-    $http.post('http://localhost:3000/questions', $scope.question).success(function(data) {
-      console.log(data);
-    }).error(function(err) {
-      console.log(err);
+.factory('Question', function($http, ATN) {
+  return {
+    getAll: function() {
+      return $http.get(ATN.API_URL + '/questions');
+    },
+    getTwenty: function() {
+      return $http.get(ATN.API_URL + '/limitquestions');
+    },
+    addQuestion: function(newQuestion) {
+      return $http.post(ATN.API_URL + '/questions', newQuestion)
+    }
+  }
+})
+
+.controller('MainCtrl', function($scope, $http, $location, Question, ATN){
+  
+  $scope.showDetails = function(question) {
+    console.log('details here', question);
+    $http.get(ATN.API_URL + '/questions/' + question.body).success(function(data) {
+      console.log(JSON.stringify(data));
     });
-    $location.path('/');
   }
 
-  $http.get('http://localhost:3000/limitquestions').success(function(data) {
+  Question.getTwenty().success(function(data) {
+    console.log(data);
     $scope.questions = data;
-  }).error(function(err) {
-    console.log(err);
   });
+
+  $scope.submitQuestion = function() {
+    Question.addQuestion($scope.question)
+      .success(function(data) {
+        $scope.questions.unshift(data);
+        $scope.question = {};
+        $('#new-question-modal').modal('hide');
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
 });

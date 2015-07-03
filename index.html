@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="heimdall">
+<html lang="en" ng-app="questionApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,17 +13,19 @@
     <div class='container'>
       <h1 class='text-center'>Mongo Express Frontend</h1>
       <h3 class='text-center'>not heimdall</h3>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Add Question</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new-question-modal" >Add Question</button>
       <ul>
-        <li ng-repeat='question in questions'>
-          {{question.email}}
-          {{question.body}}
+        <li ng-repeat='question in questions track by $index'>
+          <img class='gravImg' ng-src="{{question.gravUrl}}" alt="">
+          <h5>{{question.email}}</h5>
+          {{question.body}} <br>
+          <button class='btn btn-success btn-sm' ng-click='showDetails(question)'>Details</button>
         </li>
       </ul>
     </div>
 
-    <form ng-submit='submitQuestion($event)'>
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <form ng-submit='submitQuestion()'>
+      <div class="modal fade" id="new-question-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -51,10 +53,39 @@
       </div>
     </form>
 
+<!-- 
+  <div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button class="btn btn-default" ng-click="open()">Open me!</button>
+    <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+    <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+    <button class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ animationsEnabled }})</button>
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+  </div>
+ -->
 
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
