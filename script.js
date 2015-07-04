@@ -2,7 +2,8 @@
 
 angular.module('questionApp', ['ui.router'])
 .constant("ATN", {
-  "API_URL": "https://mongoexoress.herokuapp.com"
+  "API_URL": "https://mongoexoress.herokuapp.com",
+  "FIREBASE_URL": "https://questions-app.firebaseio.com/"
 })
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
@@ -57,6 +58,10 @@ angular.module('questionApp', ['ui.router'])
       })
   };
 })
+
+// .service('FBService', function($scope) {
+//   this.fbRef = 
+// })
 
 .controller('NavCtrl', function($scope, $state) {
   $scope.uiState = $state;
