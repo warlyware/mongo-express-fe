@@ -1,15 +1,23 @@
-
 <div class='container'>
-  <h1 class='text-center'>Mongo Express Frontend</h1>
-  <h3 class='text-center'>not heimdall</h3>
-  <button type="button" class="btn btn-primary" ui-sref='newQuestion'>Add Question</button>
-  <ul>
+  <div class="media" ng-repeat='question in questions track by $index'>
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object gravImg" ng-src="{{question.gravatarUrl}}">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">Question from {{question.email}}</h4>
+      <div class='created-at'><strong>{{question.createdAt | timeInWords}}</strong></div>
+      <div>{{question.body}}</div>
+    </div>
+  </div>
+<!--   <ul>
     <li ng-repeat='question in questions track by $index'>
       <img class='gravImg' ng-src="{{question.gravatarUrl}}" alt="">
       <h5>{{question.email}}</h5>
-      <div>{{question.created | timeInWords}}</div>
+      <div>{{question.createdAt | timeInWords}}</div>
       <div>{{question.body}}</div>
       <a class='btn btn-success btn-sm' ui-sref='question({slug: question.slug})'>Details</a>
     </li>
   </ul>
-</div>
+ --></div>

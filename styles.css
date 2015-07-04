@@ -1,7 +1,24 @@
+.btn-new {
+  margin-top: 12px;
+}
+
+.created-at {
+  font-size: 0.7em;
+}
+
 .gravImg {
   margin-top: 10px;
   border-radius: 5px;
 }
+
+.media {
+  background-color: grey;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 5px 0px 15px 20px;
+  /*padding-left: 20px;*/
+}
+
 
 ul {
   list-style: none;

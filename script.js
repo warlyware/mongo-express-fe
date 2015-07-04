@@ -1,97 +1,83 @@
 'use strict';
 
 angular.module('questionApp', ['ui.router'])
-.constant('ATN', {
-  'API_URL': 'http://localhost:3000'
+.constant("ATN", {
+  "API_URL": "https://mongoexoress.herokuapp.com"
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise("/");
   $stateProvider
     .state('home', {
-      url: '/',
-      templateUrl: 'list.html',
+      url: "/",
+      templateUrl: "list.html",
       controller: 'MainCtrl'
-    });
-  $stateProvider
-    .state('away', {
-      url: '/away/:id',
-      templateUrl: 'away.html',
-      controller: function($scope, $state) {
-        $scope.away = $state.params.id;
-      }
-    });
-  $stateProvider
-    .state('newQuestion', {
-      url: '/new',
-      templateUrl: 'new.html',
-      controller: 'NewQuestionCtrl'
-    });
-  $stateProvider
+    })
+    .state('404', {
+      url: "/404",
+      templateUrl: "404.html"
+    })
+    .state('new', {
+      url: "/new",
+      templateUrl: "new.html",
+      controller: "NewQuestionCtrl"
+    })
     .state('question', {
-      url: '/:slug',
-      templateUrl: 'question.html',
-      controller: 'QuestionCtrl'
+      url: "/:slug",
+      templateUrl: "question.html",
+      controller: "QuestionCtrl"
     });
-  $urlRouterProvider.otherwise('/');
 })
-
-.filter('timeInWords', function() {
-  return function(input) {
-    return moment(input).utc().fromNow();
-  };
-})
-
 .factory('Question', function($http, ATN) {
   return {
-    getAll: function() {
-      return $http.get(ATN.API_URL + '/questions');
+    getOne: function(slug) {
+      return $http.get(ATN.API_URL + "/questions/" + slug);
     },
-    // getTwenty: function() {
-    //   return $http.get(ATN.API_URL + '/limitquestions');
-    // },
+    getAll: function() {
+      return $http.get(ATN.API_URL + "/questions");
+    },
     addQuestion: function(newQuestion) {
-      return $http.post(ATN.API_URL + '/questions', newQuestion);
+      return $http.post(ATN.API_URL + "/questions", newQuestion);
     }
-  };
+  }
 })
-
-.controller('QuestionCtrl', function($scope, $state, Question) {
-  $scope.slug = $state.params.slug;
+.filter("timeInWords", function() {
+  return function(input) {
+    return moment(input).utc().fromNow();
+  }
 })
-
-.controller('NewQuestionCtrl', function($scope, $state, Question) {
-  // $scope.slug = $state.params.slug;
-})
-
-
-.controller('MainCtrl', function($scope, $http, $location, Question, ATN){
-  
-  $scope.questionSelected = false;
-
-  $scope.showDetails = function(question) {
-    console.log('details here', question.slug);
-    $http.get(ATN.API_URL + '/questions/' + question.slug).success(function(data) {
-      console.log(data);
-      $location.url('/questions/' + question.slug);
-      $scope.selectedQuestion = data;
-      $scope.questionSelected = true;
-    });
-  };
-
-  Question.getAll().success(function(data) {
-    console.log(data);
-    $scope.questions = data;
-  });
-
+.controller('NewQuestionCtrl', function($scope, Question, $state){
   $scope.submitQuestion = function() {
     Question.addQuestion($scope.question)
       .success(function(data) {
-        $scope.questions.unshift(data);
         $scope.question = {};
-        $('#new-question-modal').modal('hide');
+        $state.go("home");
       })
       .catch(function(err) {
-        console.log(err);
-      });
+        console.error(err);
+      })
   };
+})
+
+.controller('NavCtrl', function($scope, $state) {
+  $scope.uiState = $state;
+  console.log($state);
+})
+
+.controller('QuestionCtrl', function($scope, Question, $state){
+  $scope.slug = $state.params.slug;
+
+  Question.getOne($state.params.slug)
+    .success(function(data) {
+      $scope.question = data;
+    }).catch(function(err) {
+      console.error(err);
+      $state.go("404");
+    });
+})
+.controller('MainCtrl', function($scope, Question){
+  Question.getAll().success(function(data) {
+    $scope.questions = data;
+  }).catch(function(err) {
+    console.error(err);
+  });
 });
