@@ -9,83 +9,16 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="/favicon.ico">
   </head>
-  <body ng-controller='MainCtrl'>
-    <div class='container'>
-      <h1 class='text-center'>Mongo Express Frontend</h1>
-      <h3 class='text-center'>not heimdall</h3>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new-question-modal" >Add Question</button>
-      <ul>
-        <li ng-repeat='question in questions track by $index'>
-          <img class='gravImg' ng-src="{{question.gravUrl}}" alt="">
-          <h5>{{question.email}}</h5>
-          {{question.body}} <br>
-          <button class='btn btn-success btn-sm' ng-click='showDetails(question)'>Details</button>
-        </li>
-      </ul>
-    </div>
-
-    <form ng-submit='submitQuestion()'>
-      <div class="modal fade" id="new-question-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="exampleModalLabel">Enter Question</h4>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="control-label">Email:</label>
-                  <input type="text" class="form-control" id="userEmail" ng-model='question.email' name="email">
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="control-label">Question:</label>
-                  <textarea class="form-control" id="userQuestion" ng-model='question.body' name="body"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Post question</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-
-<!-- 
-  <div>
-    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Modal!</h3>
-        </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">
-                    <a ng-click="selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ selected.item }}</b>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
-
-    <button class="btn btn-default" ng-click="open()">Open me!</button>
-    <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
-    <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
-    <button class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ animationsEnabled }})</button>
-    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
-  </div>
- -->
+  <body>
+    
+    <div ui-view></div ui-view>
 
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+    <script src="/bower_components/ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

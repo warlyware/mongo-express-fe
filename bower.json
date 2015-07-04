@@ -19,6 +19,8 @@
     "bootstrap": "~3.3.5",
     "angularfire": "~1.1.2",
     "firebase": "~2.2.7",
-    "angular-bootstrap": "~0.13.0"
+    "angular-bootstrap": "~0.13.0",
+    "moment": "~2.10.3",
+    "ui-router": "~0.2.15"
   }
 }
