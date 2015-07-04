@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('questionApp', ['ui.router'])
+angular.module('questionApp', ['ui.router', 'firebase'])
 .constant("ATN", {
-  "API_URL": "https://mongoexoress.herokuapp.com",
+  "API_URL": "http://localhost:3000",
   "FIREBASE_URL": "https://questions-app.firebaseio.com/"
 })
 .config(function($stateProvider, $urlRouterProvider) {
@@ -41,6 +41,22 @@ angular.module('questionApp', ['ui.router'])
     }
   }
 })
+
+.factory('Answer', function() {
+  var answers = {};
+  return {
+    addAnswer: function(slug, newAnswer) {
+
+      answers[slug].push(newAnswer);
+      // return this.answers.push(answer);
+    },
+    getAll: function(slug) {
+      answers[slug] = answers[slug] || [];
+      return answers[slug];
+    }
+  }
+})
+
 .filter("timeInWords", function() {
   return function(input) {
     return moment(input).utc().fromNow();
@@ -63,13 +79,29 @@ angular.module('questionApp', ['ui.router'])
 //   this.fbRef = 
 // })
 
-.controller('NavCtrl', function($scope, $state) {
+.controller('NavCtrl', function($scope, $state, $firebaseAuth, ATN) {
   $scope.uiState = $state;
-  console.log($state);
+
+  // var ref = new Firebase(ATN.FIREBASE_URL);
+
+  // // create an instance of the authentication service
+  // var auth = $firebaseAuth(ref);
+
+  // $scope.authObj.$authWithPassword({
+  //   email: "my@email.com",
+  //   password: "mypassword"
+  // }).then(function(authData) {
+  //   console.log("Logged in as:", authData.uid);
+  // }).catch(function(error) {
+  //   console.error("Authentication failed:", error);
+  // });
+
 })
 
-.controller('QuestionCtrl', function($scope, Question, $state){
+.controller('QuestionCtrl', function($scope, Question, $state, Answer){
   $scope.slug = $state.params.slug;
+
+  $scope.answers = Answer.getAll($scope.slug);
 
   Question.getOne($state.params.slug)
     .success(function(data) {
@@ -78,6 +110,11 @@ angular.module('questionApp', ['ui.router'])
       console.error(err);
       $state.go("404");
     });
+
+  $scope.addAnswer = function() {
+    Answer.addAnswer($scope.slug, $scope.answer);
+    $scope.answer = {};
+  }
 })
 .controller('MainCtrl', function($scope, Question){
   Question.getAll().success(function(data) {
