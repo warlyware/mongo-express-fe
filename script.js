@@ -3,7 +3,7 @@
 angular.module('questionApp', ['ui.router', 'firebase'])
 .constant("ATN", {
   "API_URL": "http://localhost:3000",
-  "FIREBASE_URL": "https://questions-app.firebaseio.com/"
+  "FIREBASE_URL": "https://questions-app.firebaseio.com"
 })
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
@@ -28,6 +28,7 @@ angular.module('questionApp', ['ui.router', 'firebase'])
       controller: "QuestionCtrl"
     });
 })
+
 .factory('Question', function($http, ATN) {
   return {
     getOne: function(slug) {
@@ -42,17 +43,32 @@ angular.module('questionApp', ['ui.router', 'firebase'])
   }
 })
 
-.factory('Answer', function() {
-  var answers = {};
+.factory('Answer', function($http, ATN) {
   return {
     addAnswer: function(slug, newAnswer) {
 
-      answers[slug].push(newAnswer);
+      return $http.post(ATN.API_URL + '/questions/' + slug + '/answers', newAnswer);
       // return this.answers.push(answer);
+    }
+    // getAll: function(slug) {
+    //   return $http.post(ATN.API_URL + '/questions/' + slug + '/answers');
+    //   // return this.answers.push(answer);
+    // }
+  }
+})
+
+.factory('Auth', function($firebaseAuth) {
+  var ref = new Firebase('https://twatter-sandwich.firebaseio.com/');
+  return $firebaseAuth(ref);
+})
+
+.factory('User', function(ATN) {
+  return {
+    addUser: function() {
+      
     },
-    getAll: function(slug) {
-      answers[slug] = answers[slug] || [];
-      return answers[slug];
+    loginUser: function() {
+      
     }
   }
 })
@@ -74,34 +90,27 @@ angular.module('questionApp', ['ui.router', 'firebase'])
       })
   };
 })
-
-// .service('FBService', function($scope) {
-//   this.fbRef = 
-// })
-
-.controller('NavCtrl', function($scope, $state, $firebaseAuth, ATN) {
+.controller('NavCtrl', function($scope, $state, $firebaseAuth, ATN, User, Auth) {
   $scope.uiState = $state;
 
-  // var ref = new Firebase(ATN.FIREBASE_URL);
+  var ref = new Firebase(ATN.FIREBASE_URL + '/users');
+  $scope.authObj = $firebaseAuth(ref);
+  // $scope.loginUser = function() {    
+  //   AuthService.login($scope.login.email, $scope.login.password);
+  // }
 
-  // // create an instance of the authentication service
-  // var auth = $firebaseAuth(ref);
-
-  // $scope.authObj.$authWithPassword({
-  //   email: "my@email.com",
-  //   password: "mypassword"
-  // }).then(function(authData) {
-  //   console.log("Logged in as:", authData.uid);
-  // }).catch(function(error) {
-  //   console.error("Authentication failed:", error);
-  // });
-
+  $scope.authObj.$authWithPassword({
+    email: "my@email.com",
+    password: "mypassword"
+  }).then(function(authData) {
+    console.log("Logged in as:", authData.uid);
+  }).catch(function(error) {
+    console.error("Authentication failed:", error);
+  });
 })
 
 .controller('QuestionCtrl', function($scope, Question, $state, Answer){
   $scope.slug = $state.params.slug;
-
-  $scope.answers = Answer.getAll($scope.slug);
 
   Question.getOne($state.params.slug)
     .success(function(data) {
@@ -112,9 +121,14 @@ angular.module('questionApp', ['ui.router', 'firebase'])
     });
 
   $scope.addAnswer = function() {
-    Answer.addAnswer($scope.slug, $scope.answer);
-    $scope.answer = {};
-  }
+    Answer.addAnswer($scope.slug, $scope.answer)
+    .success(function(data){
+      $scope.question = data;
+      $scope.answer = {};
+    }).catch(function(err) {
+      console.error(err);
+    });
+  };
 })
 .controller('MainCtrl', function($scope, Question){
   Question.getAll().success(function(data) {

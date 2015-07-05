@@ -1,8 +1,6 @@
 <div class="container">
-  <h3>Question from {{selectedQuestion.email}}</h3>
-  <h3>{{slug}}</h3>
-  <p>{{selectedQuestion.body}}</p>
-
+  <h3>Question from {{question.email}}</h3>
+  <h3>{{question.body}}</h3>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
     Write Answer
   </button>
@@ -35,40 +33,16 @@
   <br>
 
   <div class="boxes">
-    <div class="media" ng-repeat="answer in answers">
+    <div class="media" ng-repeat="answer in question.answers">
       <div class="media-left">
         <a href="#">
-          <img class="media-object" ng-src="....">
+          <img class="media-object" ng-src="{{answer.gravatarUrl}}">
         </a>
       </div>
       <div class="media-body">
         <h4 class="media-heading">{{answer.email}} answered</h4>
         <div class="time hidden-xs">time....</div>
         <div>{{answer.body}}</div>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <a href="#">
-          <img class="media-object" ng-src="....">
-        </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">email answered:</h4>
-        <div class="time hidden-xs">time....</div>
-        <div>answer body </div>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <a href="#">
-          <img class="media-object" ng-src="....">
-        </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">email answered:</h4>
-        <div class="time hidden-xs">time....</div>
-        <div>answer body </div>
       </div>
     </div>
   </div>
