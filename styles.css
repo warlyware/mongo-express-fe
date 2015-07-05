@@ -6,6 +6,10 @@
   font-size: 0.7em;
 }
 
+.dropdown-menu a {
+  cursor: pointer;
+}
+
 .gravImg {
   margin-top: 10px;
   border-radius: 5px;

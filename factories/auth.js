@@ -1,4 +1,4 @@
-app.factory('Auth', function($firebaseAuth) {
-  var ref = new Firebase('https://twatter-sandwich.firebaseio.com/');
+app.factory('Auth', function($firebaseAuth, ATN) {
+  var ref = new Firebase(ATN.FIREBASE_URL);
   return $firebaseAuth(ref);
 });

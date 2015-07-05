@@ -29,15 +29,20 @@
         <ul class="nav navbar-nav navbar-right">
         <button class="btn btn-primary pull-left btn-new"
                 ui-sref="new"
-                ng-hide="uiState.current.name === 'new'">Add Question</button>
+                ng-hide="uiState.current.name === 'new'"
+                ng-if="authData">Add Question</button>
+        <button class="btn btn-primary pull-left btn-new"
+                ui-sref="login"
+                ng-hide="uiState.current.name === 'login'"
+                ng-if="!authData">Login</button>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-if="authData">{{authData.password.email}}<span class="caret" ng-if="authData"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
               <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li><a ng-click="logoutUser()">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -59,6 +64,8 @@
     <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
     <script src="app.js"></script>
+    <script src="services/auth.js"></script>
+    <script src="controllers/auth.js"></script>
     <script src="controllers/nav.js"></script>
     <script src="controllers/newquestion.js"></script>
     <script src="controllers/question.js"></script>

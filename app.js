@@ -17,6 +17,16 @@ var app = angular.module('questionApp', ['ui.router', 'firebase'])
       url: "/404",
       templateUrl: "/views/404.html"
     })
+    .state('login', {
+      url: "/login",
+      templateUrl: "/views/login.html",
+      controller: "AuthCtrl"      
+    })
+    .state('register', {
+      url: "/register",
+      templateUrl: "/views/register.html",
+      controller: "AuthCtrl"
+    })    
     .state('new', {
       url: "/new",
       templateUrl: "/views/new.html",
