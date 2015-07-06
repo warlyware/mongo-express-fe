@@ -13,9 +13,13 @@
       <button class="btn btn-danger btn-sm pull-right btn-delete" ng-click="deleteQuestion(question)" ng-if="currentUser.email === question.email">
         <span class="glyphicon glyphicon-trash"></span>
       </button>
-      <button class="btn btn-default btn-sm pull-right btn-edit" ng-click="editQuestion(question)" ng-if="currentUser.email === question.email">
+      <button class="btn btn-default btn-sm pull-right btn-edit" ng-click="showEditForm(question)" ng-if="currentUser.email === question.email">
         <span class="glyphicon glyphicon-pencil"></span>
-      </button>      
+      </button><br><br>
+      <form class="form" ng-submit="editQuestion(question, updatedQuestion)" ng-show="editingQuestion">
+        <textarea ng-model="updatedQuestion" id="" cols="30" rows="5"></textarea><br>
+        <button class="btn btn-success">Update Question</button>
+      </form>
     </div>
   </div>
 </div>

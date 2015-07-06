@@ -22,7 +22,7 @@ app.controller('NavCtrl', function($scope, $rootScope, $state, $firebaseAuth,
       console.log(userRef);
       var userObj = $firebaseObject(userRef);
       // userObj.$bindTo($rootScope, 'currentUser');
-      $scope.currentUser = userObj;
+      $rootScope.currentUser = userObj;
       console.log('currentUser:', $scope.currentUser);
     }
   });

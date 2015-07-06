@@ -1,4 +1,4 @@
-app.factory('Question', function($http, ATN) {
+app.factory('Question', function($http, ATN, $state) {
   return {
     getOne: function(slug) {
       return $http.get(ATN.API_URL + "/questions/" + slug);
@@ -10,10 +10,12 @@ app.factory('Question', function($http, ATN) {
       return $http.post(ATN.API_URL + "/questions", newQuestion);
     },
     deleteQuestion: function(slug) {
-      return $http.delete(ATN.API_URL + '/questions/' + slug);
+      return $http.delete(ATN.API_URL + '/questions/' + slug).success(function() {
+        $state.go('home');
+      })
     },
-    editQuestion: function(slug, editedQuestion) {
-      return $http.patch(ATN.API_URL + '/questions/' + slug);
+    editQuestion: function(slug, updatedQuestion) {
+      return $http.patch(ATN.API_URL + '/questions/' + slug, updatedQuestion);
     }
   }
 });
