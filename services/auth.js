@@ -30,12 +30,12 @@ app.service('AuthService', function(Auth, $state, $firebaseObject, ATN) {
       password: password
     })
     .then(function(userData) {
+      console.log(userData);
       console.log("User " + userData.uid + " created successfully!");
       var userRef = new Firebase(ATN.FIREBASE_URL + '/USERS/' + userData.uid);      
       var userObj = $firebaseObject(userRef);
       userRef.set({
         username: username,
-        img: '/img/user.png',
         name: userData.uid,
         email: email
       });

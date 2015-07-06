@@ -10,8 +10,10 @@ app.factory('Question', function($http, ATN) {
       return $http.post(ATN.API_URL + "/questions", newQuestion);
     },
     deleteQuestion: function(slug) {
-      return $http.delete(ATN.API_URL + '/questions/' + slug);      
-      console.log(answer);
+      return $http.delete(ATN.API_URL + '/questions/' + slug);
+    },
+    editQuestion: function(slug, editedQuestion) {
+      return $http.patch(ATN.API_URL + '/questions/' + slug);
     }
   }
 });

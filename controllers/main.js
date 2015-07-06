@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function($scope, Question){
+app.controller('MainCtrl', function($scope, $state, Question){
   Question.getAll().success(function(data) {
     $scope.questions = data;
   }).catch(function(err) {
@@ -6,12 +6,20 @@ app.controller('MainCtrl', function($scope, Question){
   });
 
   $scope.deleteQuestion = function(question) {
-    // if (question.answers.length < 1) {
+    if (question.answers.length < 1) {
       Question.deleteQuestion(question.slug);
-      Question.getAll().success(function(data) {
-        $scope.questions = data;
-      }).catch(function(err) {
-        console.error(err);
-      });
+      $state.go('home');
+    }
   }
+
+  // $scope.deleteQuestion = function(question) {
+  //   // if (question.answers.length < 1) {
+  //     Question.deleteQuestion(question.slug);
+  //     Question.getAll().success(function(data) {
+  //       $scope.questions = data;
+  //     }).catch(function(err) {
+  //       console.error(err);
+  //     });
+  // }
+
 });

@@ -4,6 +4,12 @@
 
 .btn-delete {
   margin-right: 30px;
+  margin-top: 10px;
+}
+
+.btn-edit {
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
 .created-at {
@@ -29,6 +35,10 @@
 
 .media-body {
   padding-left: 10px;
+}
+
+.media-body a {
+  margin-top: 10px;
 }
 
 

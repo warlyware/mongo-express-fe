@@ -21,8 +21,8 @@ app.controller('NavCtrl', function($scope, $rootScope, $state, $firebaseAuth,
       var userRef = new Firebase(ATN.FIREBASE_URL + '/USERS/' + authData.uid);
       console.log(userRef);
       var userObj = $firebaseObject(userRef);
-      userObj.$bindTo($rootScope, 'currentUser');
-      // $scope.currentUser = userObj;
+      // userObj.$bindTo($rootScope, 'currentUser');
+      $scope.currentUser = userObj;
       console.log('currentUser:', $scope.currentUser);
     }
   });

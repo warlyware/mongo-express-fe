@@ -10,9 +10,12 @@
       <div class='created-at'><strong>{{question.createdAt | timeInWords}}</strong></div>
       <div>{{question.body}}</div>
       <a class='btn btn-success btn-sm' ui-sref='question({slug: question.slug})'>Details</a>
-      <button class="btn btn-danger btn-sm pull-right btn-delete" ng-click="deleteQuestion(question)" ng-if="authData">
+      <button class="btn btn-danger btn-sm pull-right btn-delete" ng-click="deleteQuestion(question)" ng-if="currentUser.email === question.email">
         <span class="glyphicon glyphicon-trash"></span>
       </button>
+      <button class="btn btn-default btn-sm pull-right btn-edit" ng-click="editQuestion(question)" ng-if="currentUser.email === question.email">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>      
     </div>
   </div>
 </div>
