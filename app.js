@@ -32,6 +32,10 @@ var app = angular.module('questionApp', ['ui.router', 'firebase'])
       templateUrl: "/views/new.html",
       controller: "NewQuestionCtrl"
     })
+    .state('logout', {
+      url: "/logout",
+      templateUrl: "/views/logout.html"
+    })
     .state('question', {
       url: "/:slug",
       templateUrl: "/views/question.html",

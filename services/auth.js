@@ -1,4 +1,4 @@
-app.service('AuthService', function(Auth, $state, $firebaseObject) {
+app.service('AuthService', function(Auth, $state, $firebaseObject, ATN) {
 
   this.login = function(email, password) {
     console.log(email, password);
@@ -31,7 +31,6 @@ app.service('AuthService', function(Auth, $state, $firebaseObject) {
     })
     .then(function(userData) {
       console.log("User " + userData.uid + " created successfully!");
-      bootbox.alert("Thank you for registering " + username);
       var userRef = new Firebase(ATN.FIREBASE_URL + '/USERS/' + userData.uid);      
       var userObj = $firebaseObject(userRef);
       userRef.set({
@@ -47,7 +46,7 @@ app.service('AuthService', function(Auth, $state, $firebaseObject) {
     })
     .then(function(authData) {
       console.log("Logged in as:", authData);
-      $location.path('/main');
+      $state.go('home');
     })
     .catch(function(error) {
       console.error("Error: ", error);

@@ -18,11 +18,4 @@ app.controller('QuestionCtrl', function($scope, Question, $state, Answer){
       console.error(err);
     });
   };
-})
-.controller('MainCtrl', function($scope, Question){
-  Question.getAll().success(function(data) {
-    $scope.questions = data;
-  }).catch(function(err) {
-    console.error(err);
-  });
 });
