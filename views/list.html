@@ -6,11 +6,11 @@
       </a>
     </div>
     <div class="media-body">
-      <h4 class="media-heading">Question from {{question.email}}</h4>
+      <h4 class="media-heading">Question from {{question.username}}</h4>
       <div class='created-at'><strong>{{question.createdAt | timeInWords}}</strong></div>
       <div>{{question.body}}</div>
       <a class='btn btn-success btn-sm' ui-sref='question({slug: question.slug})'>Details</a>
-      <button class="btn btn-danger btn-sm pull-right btn-delete" ng-click="deleteQuestion(question)">
+      <button class="btn btn-danger btn-sm pull-right btn-delete" ng-click="deleteQuestion(question)" ng-if="authData">
         <span class="glyphicon glyphicon-trash"></span>
       </button>
     </div>

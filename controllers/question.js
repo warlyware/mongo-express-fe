@@ -10,6 +10,8 @@ app.controller('QuestionCtrl', function($scope, Question, $state, Answer){
     });
 
   $scope.addAnswer = function() {
+    $scope.answer.username = $rootScope.currentUser.username;
+    $scope.answer.email = $rootScope.currentUser.email;
     Answer.addAnswer($scope.slug, $scope.answer)
     .success(function(data){
       $scope.question = data;

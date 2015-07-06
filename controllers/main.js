@@ -6,6 +6,12 @@ app.controller('MainCtrl', function($scope, Question){
   });
 
   $scope.deleteQuestion = function(question) {
-    Question.deleteQuestion(question.slug);
+    // if (question.answers.length < 1) {
+      Question.deleteQuestion(question.slug);
+      Question.getAll().success(function(data) {
+        $scope.questions = data;
+      }).catch(function(err) {
+        console.error(err);
+      });
   }
 });

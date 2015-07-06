@@ -1,5 +1,7 @@
-app.controller('NewQuestionCtrl', function($scope, Question, $state){
+app.controller('NewQuestionCtrl', function($scope, $rootScope, Question, $state){
   $scope.submitQuestion = function() {
+    $scope.question.email = $rootScope.currentUser.email;
+    $scope.question.username = $rootScope.currentUser.username;
     Question.addQuestion($scope.question)
       .success(function(data) {
         $scope.question = {};
